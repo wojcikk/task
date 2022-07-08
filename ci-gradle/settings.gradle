@@ -1,0 +1,3 @@
+rootProject.name = 'food-delivery-gradle'
+include 'app'
+include 'data'

@@ -1,0 +1,40 @@
+plugins {
+    id 'food.delivery.gradle.java-application-conventions'
+    id 'maven-publish'
+    id 'java'
+}
+
+sourceCompatibility = 14
+
+jar.enabled = true
+
+repositories {
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        myLibrary(MavenPublication) {
+            groupId = 'food.delivery.sample'
+            artifactId = 'library'
+            version ='1.0'
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'myRepo'
+            url = layout.buildDirectory.dir("repo")
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'food.delivery.gradle.Application'
+    }
+    from {
+        configurations.compileClasspath.collect {it.isDirectory() ? it : zipTree(it)}
+    }
+}
